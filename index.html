@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Photo Capture with Custom Border</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-camera"></i> Webcam Photo Capture</h1>
+            <p class="subtitle">Take photos with custom borders</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="camera-section">
+                <div class="camera-container">
+                    <video id="video" autoplay playsinline></video>
+                    <div class="border-overlay border-fallback" id="borderOverlay"></div>
+                    <!-- <div class="layer-indicator">Border Layer (z:100)</div> -->
+                </div>
+                
+                <div class="upload-section">
+                    <h3 class="upload-title"><i class="fas fa-images"></i> Choose Frame</h3>
+                    
+                    <div class="frame-options">
+                        <div class="frame-options-row">
+                            <div class="frame-option active" data-frame="default">
+                                <div class="frame-preview default-frame">
+                                    <i class="fas fa-border-all"></i>
+                                </div>
+                                <span>Default</span>
+                            </div>
+                            <div class="frame-option" data-frame="border1.png">
+                                <div class="frame-preview">
+                                    <img src="border1.png" alt="Frame 1" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-image\'></i>';">
+                                </div>
+                                <span>Frame 1</span>
+                            </div>
+                            <div class="frame-option" data-frame="frame2">
+                                <div class="frame-preview">
+                                    <i class="fas fa-heart"></i>
+                                </div>
+                                <span>Heart</span>
+                            </div>
+                        </div>
+                        <div class="frame-options-row">
+                            <div class="frame-option" data-frame="frame3">
+                                <div class="frame-preview">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>Star</span>
+                            </div>
+                            <div class="frame-option" data-frame="frame4">
+                                <div class="frame-preview">
+                                    <i class="fas fa-square"></i>
+                                </div>
+                                <span>Square</span>
+                            </div>
+                            <div class="frame-option" data-frame="custom">
+                                <div class="frame-preview">
+                                    <i class="fas fa-upload"></i>
+                                </div>
+                                <span>Custom</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-upload-container" id="customUploadContainer" style="display: none;">
+                        <div class="border-upload">
+                            <label for="borderUpload">
+                                <i class="fas fa-image"></i>
+                                <span>Upload Custom PNG</span>
+                                <input type="file" id="borderUpload" accept=".png, .jpg, .jpeg">
+                                <img class="border-preview" id="borderPreview" alt="Border preview">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <p class="border-status" id="borderStatus">Default frame selected</p>
+                </div>
+                
+                <div class="controls">
+                    <button class="capture-btn" id="captureBtn">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="photos-section">
+                    <h2 class="section-title"><i class="fas fa-images"></i> Captured Photos</h2>
+                    <div class="photos-container" id="photosContainer">
+                        <!-- Photos will appear here -->
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <h2 class="section-title"><i class="fas fa-info-circle"></i> How to Use</h2>
+                    <p>1. Allow camera access when prompted</p>
+                    <p>2. Select a frame from the options</p>
+                    <p>3. Click the camera button to take a photo</p>
+                    <p>4. Click on any photo to download it</p>
+                    <p><strong>Tip:</strong> Choose "Custom" to upload your own PNG with transparent center</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">Photo captured successfully!</div>
+
+    <!-- Hidden canvas for processing -->
+    <canvas id="hiddenCanvas" style="display: none;"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
