@@ -10,8 +10,8 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-camera"></i> Webcam Photo Capture</h1>
-            <p class="subtitle">Take photos with custom borders</p>
+            <h1><i class="fas fa-camera"></i> Webcam Photo Studio</h1>
+            <p class="subtitle">Take photos with 4:3 ratio and create photo strip collages</p>
         </header>
         
         <div class="main-content">
@@ -19,7 +19,8 @@
                 <div class="camera-container">
                     <video id="video" autoplay playsinline></video>
                     <div class="border-overlay border-fallback" id="borderOverlay"></div>
-                    <!-- <div class="layer-indicator">Border Layer (z:100)</div> -->
+                    <!-- Aspect ratio indicator -->
+                    <div class="aspect-ratio-indicator">4:3</div>
                 </div>
                 
                 <div class="upload-section">
@@ -86,12 +87,72 @@
                     <button class="capture-btn" id="captureBtn">
                         <i class="fas fa-camera"></i>
                     </button>
+                    <div class="photo-counter" id="photoCounter">
+                        Photos: <span id="currentCount">0</span>/3
+                    </div>
                 </div>
             </div>
             
             <div class="sidebar">
+                <!-- Temporary Gallery Section -->
+                <div class="temporary-gallery">
+                    <h2 class="section-title"><i class="fas fa-layer-group"></i> Temporary Gallery</h2>
+                    <div class="gallery-info">
+                        <p class="gallery-hint">Click on a slot to retake photo</p>
+                        <div class="slot-counter">
+                            <span class="slot-label">Slots:</span>
+                            <span class="slot-badge" id="slot1Badge">1</span>
+                            <span class="slot-badge" id="slot2Badge">2</span>
+                            <span class="slot-badge" id="slot3Badge">3</span>
+                        </div>
+                    </div>
+                    <div class="gallery-slots" id="gallerySlots">
+                        <div class="gallery-slot" id="slot1" data-slot="1">
+                            <div class="slot-placeholder">
+                                <i class="fas fa-plus"></i>
+                                <span>Slot 1</span>
+                            </div>
+                            <img class="slot-image" alt="Photo 1">
+                            <div class="slot-overlay">Click to retake</div>
+                        </div>
+                        <div class="gallery-slot" id="slot2" data-slot="2">
+                            <div class="slot-placeholder">
+                                <i class="fas fa-plus"></i>
+                                <span>Slot 2</span>
+                            </div>
+                            <img class="slot-image" alt="Photo 2">
+                            <div class="slot-overlay">Click to retake</div>
+                        </div>
+                        <div class="gallery-slot" id="slot3" data-slot="3">
+                            <div class="slot-placeholder">
+                                <i class="fas fa-plus"></i>
+                                <span>Slot 3</span>
+                            </div>
+                            <img class="slot-image" alt="Photo 3">
+                            <div class="slot-overlay">Click to retake</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Collage Button -->
+                    <button class="export-btn" id="exportBtn" disabled>
+                        <i class="fas fa-download"></i> Export Photo Strip
+                    </button>
+                </div>
+                
+                <!-- Collage Preview -->
+                <div class="collage-preview-section">
+                    <h2 class="section-title"><i class="fas fa-th-large"></i> Collage Preview</h2>
+                    <div class="collage-preview" id="collagePreview">
+                        <div class="collage-placeholder">
+                            <i class="fas fa-images"></i>
+                            <p>Complete 3 photos to see preview</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Permanent Gallery (with scroll) -->
                 <div class="photos-section">
-                    <h2 class="section-title"><i class="fas fa-images"></i> Captured Photos</h2>
+                    <h2 class="section-title"><i class="fas fa-images"></i> Photo History</h2>
                     <div class="photos-container" id="photosContainer">
                         <!-- Photos will appear here -->
                     </div>
@@ -99,11 +160,13 @@
                 
                 <div class="instructions">
                     <h2 class="section-title"><i class="fas fa-info-circle"></i> How to Use</h2>
-                    <p>1. Allow camera access when prompted</p>
-                    <p>2. Select a frame from the options</p>
-                    <p>3. Click the camera button to take a photo</p>
-                    <p>4. Click on any photo to download it</p>
-                    <p><strong>Tip:</strong> Choose "Custom" to upload your own PNG with transparent center</p>
+                    <div class="instructions-content">
+                        <p>1. Select a frame and allow camera access</p>
+                        <p>2. Take up to 3 photos (4:3 ratio enforced)</p>
+                        <p>3. Click on any slot to retake that photo</p>
+                        <p>4. Complete all 3 slots to enable export</p>
+                        <p>5. Export as vertical photo strip collage</p>
+                    </div>
                 </div>
             </div>
         </div>
