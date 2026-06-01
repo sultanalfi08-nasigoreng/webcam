@@ -1,182 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Webcam Photo Capture with Custom Border</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PhotoStrip</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-camera"></i> Webcam Photo Studio</h1>
-            <p class="subtitle">Take photos with 4:3 ratio and create photo strip collages</p>
-        </header>
-        
-        <div class="main-content">
-            <div class="camera-section">
-                <div class="camera-container">
-                    <video id="video" autoplay playsinline></video>
-                    <div class="border-overlay border-fallback" id="borderOverlay"></div>
-                    <!-- Aspect ratio indicator -->
-                    <div class="aspect-ratio-indicator">4:3</div>
-                </div>
-                
-                <div class="upload-section">
-                    <h3 class="upload-title"><i class="fas fa-images"></i> Choose Frame</h3>
-                    
-                    <div class="frame-options">
-                        <div class="frame-options-row">
-                            <div class="frame-option active" data-frame="default">
-                                <div class="frame-preview default-frame">
-                                    <i class="fas fa-border-all"></i>
-                                </div>
-                                <span>Default</span>
-                            </div>
-                            <div class="frame-option" data-frame="border1.png">
-                                <div class="frame-preview">
-                                    <img src="border1.png" alt="Frame 1" onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-image\'></i>';">
-                                </div>
-                                <span>Frame 1</span>
-                            </div>
-                            <div class="frame-option" data-frame="frame2">
-                                <div class="frame-preview">
-                                    <i class="fas fa-heart"></i>
-                                </div>
-                                <span>Heart</span>
-                            </div>
-                        </div>
-                        <div class="frame-options-row">
-                            <div class="frame-option" data-frame="frame3">
-                                <div class="frame-preview">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <span>Star</span>
-                            </div>
-                            <div class="frame-option" data-frame="frame4">
-                                <div class="frame-preview">
-                                    <i class="fas fa-square"></i>
-                                </div>
-                                <span>Square</span>
-                            </div>
-                            <div class="frame-option" data-frame="custom">
-                                <div class="frame-preview">
-                                    <i class="fas fa-upload"></i>
-                                </div>
-                                <span>Custom</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="border-upload-container" id="customUploadContainer" style="display: none;">
-                        <div class="border-upload">
-                            <label for="borderUpload">
-                                <i class="fas fa-image"></i>
-                                <span>Upload Custom PNG</span>
-                                <input type="file" id="borderUpload" accept=".png, .jpg, .jpeg">
-                                <img class="border-preview" id="borderPreview" alt="Border preview">
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <p class="border-status" id="borderStatus">Default frame selected</p>
-                </div>
-                
-                <div class="controls">
-                    <button class="capture-btn" id="captureBtn">
-                        <i class="fas fa-camera"></i>
-                    </button>
-                    <div class="photo-counter" id="photoCounter">
-                        Photos: <span id="currentCount">0</span>/3
-                    </div>
-                </div>
-            </div>
-            
-            <div class="sidebar">
-                <!-- Temporary Gallery Section -->
-                <div class="temporary-gallery">
-                    <h2 class="section-title"><i class="fas fa-layer-group"></i> Temporary Gallery</h2>
-                    <div class="gallery-info">
-                        <p class="gallery-hint">Click on a slot to retake photo</p>
-                        <div class="slot-counter">
-                            <span class="slot-label">Slots:</span>
-                            <span class="slot-badge" id="slot1Badge">1</span>
-                            <span class="slot-badge" id="slot2Badge">2</span>
-                            <span class="slot-badge" id="slot3Badge">3</span>
-                        </div>
-                    </div>
-                    <div class="gallery-slots" id="gallerySlots">
-                        <div class="gallery-slot" id="slot1" data-slot="1">
-                            <div class="slot-placeholder">
-                                <i class="fas fa-plus"></i>
-                                <span>Slot 1</span>
-                            </div>
-                            <img class="slot-image" alt="Photo 1">
-                            <div class="slot-overlay">Click to retake</div>
-                        </div>
-                        <div class="gallery-slot" id="slot2" data-slot="2">
-                            <div class="slot-placeholder">
-                                <i class="fas fa-plus"></i>
-                                <span>Slot 2</span>
-                            </div>
-                            <img class="slot-image" alt="Photo 2">
-                            <div class="slot-overlay">Click to retake</div>
-                        </div>
-                        <div class="gallery-slot" id="slot3" data-slot="3">
-                            <div class="slot-placeholder">
-                                <i class="fas fa-plus"></i>
-                                <span>Slot 3</span>
-                            </div>
-                            <img class="slot-image" alt="Photo 3">
-                            <div class="slot-overlay">Click to retake</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Export Collage Button -->
-                    <button class="export-btn" id="exportBtn" disabled>
-                        <i class="fas fa-download"></i> Export Photo Strip
-                    </button>
-                </div>
-                
-                <!-- Collage Preview -->
-                <div class="collage-preview-section">
-                    <h2 class="section-title"><i class="fas fa-th-large"></i> Collage Preview</h2>
-                    <div class="collage-preview" id="collagePreview">
-                        <div class="collage-placeholder">
-                            <i class="fas fa-images"></i>
-                            <p>Complete 3 photos to see preview</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Permanent Gallery (with scroll) -->
-                <div class="photos-section">
-                    <h2 class="section-title"><i class="fas fa-images"></i> Photo History</h2>
-                    <div class="photos-container" id="photosContainer">
-                        <!-- Photos will appear here -->
-                    </div>
-                </div>
-                
-                <div class="instructions">
-                    <h2 class="section-title"><i class="fas fa-info-circle"></i> How to Use</h2>
-                    <div class="instructions-content">
-                        <p>1. Select a frame and allow camera access</p>
-                        <p>2. Take up to 3 photos (4:3 ratio enforced)</p>
-                        <p>3. Click on any slot to retake that photo</p>
-                        <p>4. Complete all 3 slots to enable export</p>
-                        <p>5. Export as vertical photo strip collage</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="notification" id="notification">Photo captured successfully!</div>
-
-    <!-- Hidden canvas for processing -->
-    <canvas id="hiddenCanvas" style="display: none;"></canvas>
-
-    <script src="script.js"></script>
+<div class="container">
+<header><h1><i class="fas fa-camera-retro"></i> PhotoStrip</h1><div class="subtitle">4:3 • frames • collage</div></header>
+<div class="main-content">
+<div class="camera-section">
+<div class="camera-container"><video id="video" autoplay playsinline></video><div class="border-overlay" id="borderOverlay"></div><div class="ratio-badge">4:3</div></div>
+<div class="upload-section">
+<div class="upload-title"><i class="fas fa-border-all"></i> Choose frame</div>
+<div class="frame-options-row" id="frameList">
+<div class="frame-option active" data-frame="border1.png"><div class="frame-preview"><i class="fas fa-image"></i></div><span>Frame 1</span></div>
+<div class="frame-option" data-frame="border2.png"><div class="frame-preview"><i class="fas fa-image"></i></div><span>Frame 2</span></div>
+<div class="frame-option" data-frame="border3.png"><div class="frame-preview"><i class="fas fa-image"></i></div><span>Frame 3</span></div>
+</div>
+<div class="border-status" id="borderStatus">Frame 1</div>
+</div>
+<div class="controls"><button class="capture-btn" id="captureBtn"><i class="fas fa-camera"></i></button><div class="photo-counter"><span id="photoCountDisplay">0</span>/3</div></div>
+</div>
+<div class="sidebar">
+<div class="temp-gallery">
+<div class="gallery-header"><span><i class="fas fa-undo-alt"></i> Click slot retake</span><div class="slot-badges"><span class="badge" id="badge1">1</span><span class="badge" id="badge2">2</span><span class="badge" id="badge3">3</span></div></div>
+<div class="slots-container">
+<div class="slot-card" data-slot="0"><div class="slot-number">#1</div><div class="slot-preview"><i class="fas fa-plus-circle"></i><img id="slotImg0"></div></div>
+<div class="slot-card" data-slot="1"><div class="slot-number">#2</div><div class="slot-preview"><i class="fas fa-plus-circle"></i><img id="slotImg1"></div></div>
+<div class="slot-card" data-slot="2"><div class="slot-number">#3</div><div class="slot-preview"><i class="fas fa-plus-circle"></i><img id="slotImg2"></div></div>
+</div>
+<button class="export-btn" id="exportBtn" disabled><i class="fas fa-download"></i> Export strip</button>
+</div>
+<div class="collage-preview-card"><div class="upload-title"><i class="fas fa-images"></i> Preview</div><div class="collage-preview" id="collagePreview"><div class="empty-preview"><i class="fas fa-camera"></i><br/>take photos</div></div></div>
+<div class="history-section"><div class="upload-title"><i class="fas fa-history"></i> History</div><div class="photo-history" id="photoHistory"></div></div>
+<div class="instruction"><i class="fas fa-info-circle"></i> Pick frame → take 3 photos → click slot retake → export</div>
+</div>
+</div>
+<div id="notification" class="notification">Ready</div>
+</div>
+<script src="script.js"></script>
 </body>
 </html>
